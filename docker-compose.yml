@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  kotlin:
+    build: KotlinServerDocker
+    image: kotlin_server:1.0
+    ports:
+    - "8080:8080"
+    networks:
+      virtual_network:
+        ipv4_address: 172.28.0.3
+    container_name: kotlin_server_running
+  mysql:
+    build: MySqlDocker
+    image: mysql_server:1.0
+    ports:
+    - "3306:3306"
+    networks:
+      virtual_network:
+        ipv4_address: 172.28.0.2
+    container_name: mysql_server_running
+    environment:
+      MYSQL_ROOT_PASSWORD: secretpassword
+      MYSQL_USER: kotlin
+      MYSQL_PASSWORD: kotlinpassword
+    volumes:
+    - ./MySqlDocker/data:/var/lib/mysql
+
+networks:
+  virtual_network:
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.28.0.0/24
