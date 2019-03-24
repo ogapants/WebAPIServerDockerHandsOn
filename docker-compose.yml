@@ -24,6 +24,17 @@ services:
       MYSQL_PASSWORD: kotlinpassword
     volumes:
     - ./MySqlDocker/data:/var/lib/mysql
+  react:
+    build: ReactServerDocker
+    image: react_server:1.0
+    ports:
+    - "3000:3000"
+    networks:
+      virtual_network:
+        ipv4_address: 172.28.0.4
+    container_name: react_server_running
+    volumes:
+    - ./ReactServerDocker/repo:/srv
 
 networks:
   virtual_network:
